@@ -6,23 +6,17 @@ class GildedRose(object):
         self.items = items
 
     def update_quality(self):
+        brie = "Aged Brie"
+        backstagepass = "Backstage passes to a TAFKAL80ETC concert"
+        HandOfRagnaros = "Sulfuras, Hand of Ragnaros"
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
+            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert" and item.name != "Sulfuras, Hand of Ragnaros":
+                updateRegularItem(item)
             else:
                 if item.quality < 50:
                     item.quality = item.quality + 1
                     if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
+                        updateBackstagepass(item)
             if item.sell_in < 0:
                 if item.name != "Aged Brie":
                     if item.name != "Backstage passes to a TAFKAL80ETC concert":
@@ -34,8 +28,26 @@ class GildedRose(object):
                 else:
                     if item.quality < 50:
                         item.quality = item.quality + 1
+             updateSellIn(item)
 
+def updateBrie(item):
+    
+def updateRegularItem(item):
+    if item.quality > 0:
+        item.quality = item.quality - 1
+    
+def updateBackstagePass(item):
+    if item.sell_in < 11:
+        if item.quality < 50:
+            item.quality = item.quality + 1
+        if item.sell_in < 6:
+            if item.quality < 50:
+                item.quality = item.quality + 1
 
+def updateSellIn(item):
+    if item.name != "Sulfuras, Hand of Ragnaros":
+        item.sell_in = item.sell_in - 1
+    
 class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
